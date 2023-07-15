@@ -13,13 +13,10 @@ def run():
         while True:
             response = stub.GetRandomEvent(myservice_pb2.Empty())
             yield response.event
-            # print("Received event:", response.event)
             time.sleep(1)
     except KeyboardInterrupt:
         pass
 
-def get_response(event: str):
-    print(event)
 
 
 if __name__ == '__main__':

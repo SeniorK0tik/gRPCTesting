@@ -11,6 +11,7 @@ class Events:
     def __call__(self):
         return f"Event {random.randint(1, 100)}"
 
+
 class MyServiceServicer(myservice_pb2_grpc.MyServiceServicer):
     def __init__(self):
         self.event = Events()
@@ -18,12 +19,14 @@ class MyServiceServicer(myservice_pb2_grpc.MyServiceServicer):
     def GetRandomEvent(self, request, context):
         return myservice_pb2.EventResponse(event=self.event())
 
+
 def start():
     server = grpc.server(futures.ThreadPoolExecutor())
     myservice_pb2_grpc.add_MyServiceServicer_to_server(MyServiceServicer(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     print('SERVER IS LISTENING')
+    print('PRESS << CTR + C >>  TO STOP')
 
     try:
         while True:
