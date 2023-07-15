@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "grpctesting"
+version = "0.1.0"
+description = ""
+authors = ["SeniorK0tik <ndrus24@bk.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9.1"
+grpcio = "^1.56.0"
+grpcio-tools = "^1.56.0"
+pytest = "^7.4.0"
+allure-pytest = "^2.13.2"
+loguru = "^0.7.0"
+pydantic = "^2.0.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks.gen_server]
+help = "gen grpc files"
+cmd = "python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./src/myservice.proto"
+
+[tool.poe.tasks.server]
+help = "Start grpc server"
+script = "src.server:start()"
+
+[tool.poe.tasks]
+start_server.sequence = ["gen_server", "server"]
+
+[tool.poe.tasks.start_tests]
+help = "Start basic test"
+cmd = "python -m pytest -s -v --alluredir tests/allure_server/allure_results"

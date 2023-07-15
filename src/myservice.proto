@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package myservice;
+
+message Empty {}
+
+message EventResponse {
+  string event = 1;
+}
+
+service MyService {
+  rpc GetRandomEvent(Empty) returns (EventResponse);
+}
